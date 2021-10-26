@@ -25,9 +25,21 @@ public class Consumer extends Thread{
     public void run() {
         System.out.println("Start Customer");
         while(true){
+
             if(this.randomPortion)
                 this.portion = (int)Math.floor(Math.random()*(100));
+
+            System.out.println("( C:" + this.consumerId + " ) Wait for get " + this.portion);
             buffer.fromBuffer(this.consumerId,this.portion);
+            System.out.println("( C:" + this.consumerId + " ) Just got " + this.portion);
+
+            int randomTime = (int)Math.random()*10 + 1;
+            try{
+                Thread.sleep(randomTime*1000);
+            }catch(InterruptedException e){
+
+            }
+
         }
     }
 }

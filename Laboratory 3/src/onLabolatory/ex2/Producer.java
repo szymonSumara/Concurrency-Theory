@@ -24,8 +24,22 @@ public class Producer extends Thread{
     public void run() {
         System.out.println("Start Producer");
         while(true){
-            this.portion = (int)Math.floor(Math.random()*(100));
-            buffer.toBuffer(this.producerId, this.portion);
+
+            if(this.randomPortion)
+                this.portion = (int)Math.floor(Math.random()*(100));
+
+            System.out.println("( P:" + this.producerId + " ) Wait for add " + this.portion);
+            buffer.toBuffer(this.producerId,this.portion);
+            System.out.println("( P:" + this.producerId + " ) Just add " + this.portion);
+
+            int randomTime = (int)Math.random()*10 + 1;
+            try{
+                Thread.sleep(randomTime);
+            }catch(InterruptedException e){
+
+            }
+
+
         }
 
     }
