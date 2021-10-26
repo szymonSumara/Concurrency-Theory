@@ -1,11 +1,11 @@
-package Prepare;
+package Ex4_3_3;
 
-public class Buffor {
+public class Buffer {
 
     private int[] array;
     private int head;
 
-    Buffor(int M){
+    Buffer(int M){
         array = new int[2*M];
         head = -1;
     }
