@@ -1,0 +1,17 @@
+Buffer now contain:0
+( C:10002 ) Wait for get 27
+( P:20001 ) Wait for add 4
+Buffer now contain:4
+( P:20001 ) Just add 4
+( C:10001 ) Wait for get 91
+( P:20001 ) Wait for add 81
+Buffer now contain:85
+( P:20001 ) Just add 81-
+( P:20001 ) Wait for add 98
+Buffer now contain:183
+( P:20001 ) Just add 98
+Buffer now contain:156
+( C:10002 ) Just got 27
+( C:10002 ) Wait for get 68
+Already have first consumer
+( P:20001 ) Wait for add 80
