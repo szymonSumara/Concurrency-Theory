@@ -1,9 +1,5 @@
-package Homework.Conditions4;
+package Lock3;
 
-import Homework.Conditions4.Buffer;
-import Homework.Conditions4.Consumer;
-import Homework.Conditions4.Producer;
-import Homework.Conditions4.ThreadStatisticCollector;
 import sun.misc.Signal;
 import sun.misc.SignalHandler;
 
@@ -12,13 +8,13 @@ import java.util.List;
 
 public class RandomPortions {
 
-    private static final int P = 1;
-    private static final int K = 2;
+    private static final int P = 2;
+    private static final int K = 3;
     private static final int M = 100;
 
     public static void main(String[] args) {
 
-        Homework.Conditions4.ThreadStatisticCollector statistic = new ThreadStatisticCollector();
+        ThreadStatisticCollector statistic = new ThreadStatisticCollector();
 
         Signal.handle(new Signal("INT"), new SignalHandler() {
             public void handle(Signal sig) {
@@ -27,7 +23,7 @@ public class RandomPortions {
             }
         });
 
-        Homework.Conditions4.Buffer buffer = new Buffer(M,statistic);
+        Buffer buffer = new Buffer(M,statistic);
         List<Thread> workers = new LinkedList();
 
         for(int i = 0 ; i < P ;i++)
