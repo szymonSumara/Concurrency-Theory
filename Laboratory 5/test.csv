@@ -1,0 +1,22 @@
+Każdy z testów był wykonywany przez czas 5min. Testy były wykonywane naprzemiennie
+Method,Number of operations
+Buffer3Lock,85109037
+Buffer4Conditions,46190050
+Buffer3Lock,86392004
+Buffer4Conditions,50250960
+Buffer3Lock,87191146
+Buffer4Conditions,48889607
+Buffer3Lock,87153797
+Buffer4Conditions,48975845
+Buffer3Lock,87319568
+Buffer4Conditions,48871985
+Buffer3Lock,90390705
+Buffer4Conditions,49023933
+Buffer3Lock,87706554
+Buffer4Conditions,48253581
+Buffer3Lock,90583254
+Buffer4Conditions,49296392
+Buffer3Lock,87850500
+Buffer4Conditions,48864595
+Buffer3Lock,88754256
+Buffer4Conditions,48579277
