@@ -1,9 +1,5 @@
 package Homework.NoDeadLock;
 
-import Homework.NoDeadLock.Buffer;
-import Homework.NoDeadLock.Consumer;
-import Homework.NoDeadLock.Producer;
-import Homework.NoDeadLock.ThreadStatisticCollector;
 import sun.misc.Signal;
 import sun.misc.SignalHandler;
 

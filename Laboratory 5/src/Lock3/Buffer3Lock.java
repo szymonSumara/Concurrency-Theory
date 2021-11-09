@@ -5,12 +5,13 @@ import java.util.List;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class Buffer {
+public class Buffer3Lock implements IBuffer{
 
 
     int maxPortionSize;
     private int actualLength = 0;
     private final int maxLength;
+    int operationLimit = 1000000;
     private boolean withStatistic;
     ThreadStatisticCollector statisticCollector;
 
@@ -22,26 +23,26 @@ public class Buffer {
     Condition producer = dataLock.newCondition();
     Condition consumer = dataLock.newCondition();
 
-    Buffer(int size){
+    Buffer3Lock(int size){
         this.maxLength = size*2;
         this.actualLength = 0;
     }
 
-    Buffer(int size, ThreadStatisticCollector statisticCollector){
+    Buffer3Lock(int size, ThreadStatisticCollector statisticCollector){
         this.maxLength = size*2;
         this.actualLength = 0;
         this.withStatistic = true;
         this.statisticCollector = statisticCollector;
     }
 
-    void toBuffer( int id , int size ){
-        producerLock.lock();
+    public void put( int pID , int size ) throws InterruptedException{
+        producerLock.lockInterruptibly();
         try{
-            dataLock.lock();
+            dataLock.lockInterruptibly();
             try {
 
                 while (maxLength - actualLength < size) {
-                    if (withStatistic) this.statisticCollector.noteWait(id);
+                    if (withStatistic) this.statisticCollector.noteWait(pID);
                     this.producer.await();
                 }
                 while (size > 0) {
@@ -50,30 +51,30 @@ public class Buffer {
                     --size;
                 }
 
-                System.out.println("Buffer now contain:" + this.actualLength);
+                //System.out.println("Buffer now contain:" + this.actualLength);
 
-                if (withStatistic) this.statisticCollector.noteAction(id);
+                if (withStatistic) this.statisticCollector.noteAction(pID);
                 this.consumer.signal();
-            }catch (InterruptedException e){
-
             }
             finally{
+
                 dataLock.unlock();
             }
 
         }finally{
+
             producerLock.unlock();
         }
 
     }
 
-    List<Integer> fromBuffer(int id, int size){
-        consumerLock.lock();
+    public List<Integer> get(int pID, int size) throws InterruptedException{
+        consumerLock.lockInterruptibly();
         try{
-            dataLock.lock();
+            dataLock.lockInterruptibly();
             try{
                 while( actualLength < size){
-                    if(withStatistic) this.statisticCollector.noteWait(id);
+                    if(withStatistic) this.statisticCollector.noteWait(pID);
                     this.consumer.await();
                 }
 
@@ -83,12 +84,12 @@ public class Buffer {
                     dataToReturn.add(this.data.remove(0));
                     this.actualLength--;
                 }
-                System.out.println("Buffer now contain:" + this.actualLength);
 
-                if(withStatistic) this.statisticCollector.noteAction(id);
+                //System.out.println("Buffer now contain:" + this.actualLength);
+
+                if(withStatistic) this.statisticCollector.noteAction(pID);
                 this.producer.signal();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+
             } finally {
                 dataLock.unlock();
             }
@@ -97,8 +98,9 @@ public class Buffer {
             consumerLock.unlock();
         }
 
-
-
         return data;
     }
+
+
+
 }

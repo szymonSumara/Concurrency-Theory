@@ -1,43 +1,47 @@
 package Lock3;
 
+import java.util.Random;
+
 public class Producer extends Thread{
-    private final Buffer buffer;
+    private final IBuffer buffer;
     private static int counter=20000;
     private final int producerId;
     private final boolean randomPortion;
     private int portion;
+    private Random random;
 
-    Producer(Buffer buffer){
+    Producer(IBuffer buffer, int seed){
         this.buffer = buffer;
         this.producerId = ++counter;
         this.randomPortion = true;
+        this.random = new Random(seed);
     }
 
-    Producer(Buffer buffer, int portionSize){
+    Producer(IBuffer buffer, int seed , int portionSize){
         this.buffer = buffer;
         this.producerId = ++counter;
         this.randomPortion = false;
         this.portion = portionSize;
+        this.random = new Random(seed);
+
     }
 
     @Override
     public void run() {
-        System.out.println("Start Producer");
+
         while(true){
 
             if(this.randomPortion)
-                this.portion = (int)Math.floor(Math.random()*(100));
+                this.portion = this.random.nextInt(100) + 1;
 
-            System.out.println("( P:" + this.producerId + " ) Wait for add " + this.portion);
-            buffer.toBuffer(this.producerId,this.portion);
-            System.out.println("( P:" + this.producerId + " ) Just add " + this.portion);
-
-            int randomTime = (int)Math.random()*10 + 1;
-            try{
-                Thread.sleep(randomTime*10);
-            }catch(InterruptedException e){
-
+            //System.out.println("( P:" + this.producerId + " ) Wait for add " + this.portion);
+            try {
+                buffer.put(this.producerId,this.portion);
+            }catch (InterruptedException e){;
+                break;
             }
+
+            //System.out.println("( P:" + this.producerId + " ) Just add " + this.portion);
 
 
         }
