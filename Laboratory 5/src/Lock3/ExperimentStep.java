@@ -27,7 +27,7 @@ public class ExperimentStep {
 
         try
         {
-            Thread.sleep(300000);
+            Thread.sleep(1000);
         }
         catch(InterruptedException ex)
         {
