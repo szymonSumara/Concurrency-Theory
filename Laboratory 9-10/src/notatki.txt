@@ -1,0 +1,18 @@
+nie przyzwyczajać się do bufora 1 elementowego
+licznenie operacji przez bufor, konsumenta i producenta
+
+
+2 architektury
+
+ring (p2p)
+
+dane nie są ciężkie
+rozdzielamy sterowanie od transmisji danych
+wiadomości nie powinny krążyć w kółko
+
+wątek centralny manager
+
+round Robin
+potwierdzanie zmiany stanu przez buffor ???
+potwierdzenie przy akceptacji producenta +++
+dane idą bezpośrednio do bufora a nie do meneagerea
