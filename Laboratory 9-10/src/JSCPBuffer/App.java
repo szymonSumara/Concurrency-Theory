@@ -10,15 +10,31 @@ public class App {
 
     final static int PRODUCERS_NUMBER = 10;
     final static int CONSUMERS_NUMBER = 2;
-    final static int BUFFERS_NUMBER = 3;
+    final static int[] BUFFER_SIZES = {10, 10, 10};
+    final static int BUFFERS_NUMBER = BUFFER_SIZES.length;
+
+    static Parallel par;
+    static  ArrayList<CSProcess> processes;
 
 
+    public static void main(String[] args) throws Exception{
 
-    public static void main(String[] args) {
 
         Signal.handle(new Signal("INT"), new SignalHandler() {
             public void handle(Signal sig) {
-                System.out.println(StatisticCollector.instance);
+
+                par.removeAllProcesses();
+                for( CSProcess process : processes ){
+                    if( process instanceof Producer){
+                        System.out.println(((Producer) process).ID + " : " + ((Producer) process).operations);
+                    }
+                    if(process instanceof  Consumer){
+                        System.out.println(((Consumer) process).ID + " : " + ((Consumer) process).operations);
+                    }
+                    if(process instanceof  Buffer){
+                        System.out.println(((Buffer) process).ID + " : " + ((Buffer) process).operations);
+                    }
+                }
                 System.exit(1);
             }
         });
@@ -55,7 +71,7 @@ public class App {
         }
 
 
-        ArrayList<CSProcess> processes = new ArrayList();
+        processes = new ArrayList();
 
         for(int i = 0 ; i < PRODUCERS_NUMBER ; i ++)
             processes.add(new Producer(producersChannels[i], managersProducersChannels[i]));
@@ -64,15 +80,13 @@ public class App {
             processes.add(new Consumer(consumersChannels[i], managersConsumersChannels[i]));
 
         for(int i = 0 ; i < BUFFERS_NUMBER ; i ++)
-            processes.add(new Buffer(buffersProducersChannels[i], buffersConsumersChannels[i]));
+            processes.add(new Buffer(buffersProducersChannels[i], buffersConsumersChannels[i], BUFFER_SIZES[i]));
 
-        processes.add(new BufferManager(managersProducersChannels,managersConsumersChannels, BUFFERS_NUMBER));
+        processes.add(new BufferManager(managersProducersChannels,managersConsumersChannels, BUFFER_SIZES));
 
         CSProcess[] process = new CSProcess[processes.size()];
         process = processes.toArray(process);
-        Parallel par = new Parallel(process);
+        par = new Parallel(process);
         par.run();
-
-
     }
 }
