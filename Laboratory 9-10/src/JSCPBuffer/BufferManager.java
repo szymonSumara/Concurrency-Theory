@@ -1,4 +1,4 @@
-package Simple;
+package JSCPBuffer;
 
 import org.jcsp.lang.*;
 
@@ -44,6 +44,7 @@ public class BufferManager implements CSProcess {
 
         Guard[] guards2 = new Guard[consumersChannels.length];
         System.arraycopy(consumersChannels, 0, guards2, 0, consumersChannels.length);
+
 
         Alternative everyone = new Alternative(guards);
         Alternative producers = new Alternative(guards1);

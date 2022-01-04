@@ -1,4 +1,4 @@
-package Simple;
+package JSCPBuffer;
 
 import org.jcsp.lang.AltingChannelInputInt;
 import org.jcsp.lang.CSProcess;

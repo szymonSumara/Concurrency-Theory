@@ -1,4 +1,4 @@
-package Simple;
+package JSCPBuffer;
 
 import org.jcsp.lang.*;
 import sun.misc.Signal;
@@ -8,9 +8,9 @@ import java.util.ArrayList;
 
 public class App {
 
-    final static int PRODUCERS_NUMBER = 10;
-    final static int CONSUMERS_NUMBER = 2;
-    final static int[] BUFFER_SIZES = {10, 10, 10};
+    final static int PRODUCERS_NUMBER = 2;
+    final static int CONSUMERS_NUMBER = 1;
+    final static int[] BUFFER_SIZES = {100,100,100, 10, 10};
     final static int BUFFERS_NUMBER = BUFFER_SIZES.length;
 
     static Parallel par;
